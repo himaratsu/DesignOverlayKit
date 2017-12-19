@@ -9,6 +9,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         view.addSubview(tableView)
+        title = "Design Overlay サンプルアプリ"
         tableView.frame = self.view.frame
         tableView.dataSource = self
         tableView.delegate = self

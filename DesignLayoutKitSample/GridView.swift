@@ -37,9 +37,9 @@ class GridView: UIView {
         settingButton.frame.origin = CGPoint(x: 10, y: 10)
         addSubview(settingButton)
 
-        designImageView.frame = frame
-        designImageView.contentMode = .scaleAspectFill
-        addSubview(designImageView)
+//        designImageView.frame = frame
+//        designImageView.contentMode = .scaleAspectFill
+//        addSubview(designImageView)
 
         refresh()
     }
@@ -76,9 +76,9 @@ class GridView: UIView {
     }
 
     func refresh() {
-        designImageView.isHidden = !overlayParameter.isDesignEnable
-        designImageView.image = overlayParameter.designImage
-        designImageView.alpha = overlayParameter.designAlpha
+//        designImageView.isHidden = !overlayParameter.isDesignEnable
+//        designImageView.image = overlayParameter.designImage
+//        designImageView.alpha = overlayParameter.designAlpha
         setNeedsDisplay()
     }
 

@@ -44,19 +44,20 @@ class SettingViewController: UIViewController {
     }
 
     func configureSubviews() {
-        title = "Setting"
+        title = "Design Overlay"
         tableView.dataSource = self
         tableView.keyboardDismissMode = .onDrag
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
 
         closeButton.setTitle("Close", for: .normal)
-        closeButton.tintColor = UIColor.gray
+        closeButton.setTitleColor(.blue, for: .normal)
         closeButton.addTarget(self, action: #selector(closeButtonTouched), for: .touchUpInside)
+        closeButton.backgroundColor = .white
     }
 
     func configureLayout() {
-        tableView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height - 44)
-        closeButton.frame = CGRect(x: 0, y: tableView.frame.size.height, width: UIScreen.main.bounds.size.width, height: 44)
+        tableView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height - 60)
+        closeButton.frame = CGRect(x: 0, y: tableView.frame.size.height, width: UIScreen.main.bounds.size.width, height: 60)
     }
 
     func closeButtonTouched() {
@@ -74,104 +75,47 @@ class SettingViewController: UIViewController {
 }
 
 extension SettingViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                cell.textLabel?.text = "Enable"
-                let enableSwitch = UISwitch()
-                enableSwitch.isOn = overlayParameter.isDesignEnable
-                enableSwitch.addTarget(self, action: #selector(designEnableSwitchChanged(_:)), for: .valueChanged)
-                cell.accessoryView = enableSwitch
-                return cell
-            } else if indexPath.row == 1 {
-                cell.textLabel?.text = "Capture"
-                let imageView = UIImageView()
-                imageView.frame = CGRect(x: 0, y: 0, width: 38, height: 38)
-                imageView.image = overlayParameter.designImage
-                imageView.isUserInteractionEnabled = true
-                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(designImageTouched))
-                imageView.addGestureRecognizer(tapGesture)
-                cell.accessoryView = imageView
-                return cell
-            } else if indexPath.row == 2 {
-                cell.textLabel?.text = "Alpha"
-                let sliderView = UISlider()
-                sliderView.value = Float(overlayParameter.designAlpha)
-                sliderView.addTarget(self, action: #selector(designAlphaChanged(_:)), for: .valueChanged)
-                cell.accessoryView = sliderView
-                return cell
-            }
-        } else if indexPath.section == 1 {
-            if indexPath.row == 0 {
-                cell.textLabel?.text = "Enable"
-                let enableSwitch = UISwitch()
-                enableSwitch.isOn = overlayParameter.isGridEnable
-                enableSwitch.addTarget(self, action: #selector(gridEnableSwitchChanged(_:)), for: .valueChanged)
-                cell.accessoryView = enableSwitch
-                return cell
-            } else if indexPath.row == 1 {
-                let textField = MarginTextField()
-                textField.frame = CGRect(x: 0, y: 0, width: 40, height: 36)
-                textField.placeholder = "px"
-                textField.text = "\(overlayParameter.gridSize)"
-                textField.delegate = self
-                textField.tag = 1
-                textField.keyboardType = .numberPad
-                textField.returnKeyType = .done
-                cell.textLabel?.text = "Size"
-                cell.accessoryView = textField
-                return cell
-            } else if indexPath.row == 2 {
-                let textField = MarginTextField()
-                textField.text = "#CCCCCC"
-                textField.frame = CGRect(x: 0, y: 0, width: 100, height: 36)
-                textField.tag = 2
-                textField.delegate = self
-                textField.returnKeyType = .done
-                cell.textLabel?.text = "Color"
-                cell.accessoryView = textField
-                return cell
-            }
+        if indexPath.row == 0 {
+            cell.textLabel?.text = "Enable"
+            let enableSwitch = UISwitch()
+            enableSwitch.isOn = overlayParameter.isGridEnable
+            enableSwitch.addTarget(self, action: #selector(gridEnableSwitchChanged(_:)), for: .valueChanged)
+            cell.accessoryView = enableSwitch
+            return cell
+        } else if indexPath.row == 1 {
+            let textField = MarginTextField()
+            textField.frame = CGRect(x: 0, y: 0, width: 40, height: 36)
+            textField.placeholder = "px"
+            textField.text = "\(overlayParameter.gridSize)"
+            textField.delegate = self
+            textField.tag = 1
+            textField.keyboardType = .numberPad
+            textField.returnKeyType = .done
+            cell.textLabel?.text = "Size"
+            cell.accessoryView = textField
+            return cell
+        } else if indexPath.row == 2 {
+            let textField = MarginTextField()
+            textField.text = "#CCCCCC"
+            textField.frame = CGRect(x: 0, y: 0, width: 100, height: 36)
+            textField.tag = 2
+            textField.delegate = self
+            textField.returnKeyType = .done
+            cell.textLabel?.text = "Color"
+            cell.accessoryView = textField
+            return cell
         }
         return cell
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Design"
-        } else if section == 1 {
-            return "Grid"
-        } else {
-            return nil
-        }
-    }
-
-    func designEnableSwitchChanged(_ sw: UISwitch) {
-        overlayParameter.isDesignEnable = sw.isOn
-        gridView?.refresh()
-    }
-
-    func designImageTouched() {
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        picker.sourceType = .photoLibrary
-
-        gridView?.isHidden = true
-        present(picker, animated: true, completion: nil)
-    }
-
-    func designAlphaChanged(_ slider: UISlider) {
-        overlayParameter.designAlpha = CGFloat(slider.value)
-        gridView?.refresh()
+        return "Grid"
     }
 
     func gridEnableSwitchChanged(_ sw: UISwitch) {
