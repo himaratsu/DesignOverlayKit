@@ -7,14 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D90D7D131F331AE300C4253B /* OverlayParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D7D121F331AE300C4253B /* OverlayParameter.swift */; };
+		D94D3F491F393EFF001ACAC6 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94D3F481F393EFF001ACAC6 /* DetailViewController.swift */; };
+		D9B637331F317864006F761D /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B637321F317864006F761D /* SettingViewController.swift */; };
 		D9F7D15D1F315AA0001C0109 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F7D15C1F315AA0001C0109 /* AppDelegate.swift */; };
 		D9F7D15F1F315AA0001C0109 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F7D15E1F315AA0001C0109 /* ViewController.swift */; };
 		D9F7D1621F315AA1001C0109 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9F7D1601F315AA1001C0109 /* Main.storyboard */; };
 		D9F7D1641F315AA1001C0109 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9F7D1631F315AA1001C0109 /* Assets.xcassets */; };
 		D9F7D1671F315AA1001C0109 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9F7D1651F315AA1001C0109 /* LaunchScreen.storyboard */; };
+		D9F7D1701F315ACC001C0109 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F7D16F1F315ACC001C0109 /* GridView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D90D7D121F331AE300C4253B /* OverlayParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayParameter.swift; sourceTree = "<group>"; };
+		D94D3F481F393EFF001ACAC6 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		D9B637321F317864006F761D /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		D9F7D1591F315AA0001C0109 /* DesignLayoutKitSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DesignLayoutKitSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9F7D15C1F315AA0001C0109 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9F7D15E1F315AA0001C0109 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +29,7 @@
 		D9F7D1631F315AA1001C0109 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D9F7D1661F315AA1001C0109 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D9F7D1681F315AA1001C0109 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D9F7D16F1F315ACC001C0109 /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +62,26 @@
 		D9F7D15B1F315AA0001C0109 /* DesignLayoutKitSample */ = {
 			isa = PBXGroup;
 			children = (
+				D9F7D16E1F315AA6001C0109 /* DesignLayoutKit */,
 				D9F7D15C1F315AA0001C0109 /* AppDelegate.swift */,
 				D9F7D15E1F315AA0001C0109 /* ViewController.swift */,
+				D94D3F481F393EFF001ACAC6 /* DetailViewController.swift */,
 				D9F7D1601F315AA1001C0109 /* Main.storyboard */,
 				D9F7D1631F315AA1001C0109 /* Assets.xcassets */,
 				D9F7D1651F315AA1001C0109 /* LaunchScreen.storyboard */,
 				D9F7D1681F315AA1001C0109 /* Info.plist */,
 			);
 			path = DesignLayoutKitSample;
+			sourceTree = "<group>";
+		};
+		D9F7D16E1F315AA6001C0109 /* DesignLayoutKit */ = {
+			isa = PBXGroup;
+			children = (
+				D9F7D16F1F315ACC001C0109 /* GridView.swift */,
+				D9B637321F317864006F761D /* SettingViewController.swift */,
+				D90D7D121F331AE300C4253B /* OverlayParameter.swift */,
+			);
+			name = DesignLayoutKit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,7 +158,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9F7D15F1F315AA0001C0109 /* ViewController.swift in Sources */,
+				D9F7D1701F315ACC001C0109 /* GridView.swift in Sources */,
 				D9F7D15D1F315AA0001C0109 /* AppDelegate.swift in Sources */,
+				D94D3F491F393EFF001ACAC6 /* DetailViewController.swift in Sources */,
+				D90D7D131F331AE300C4253B /* OverlayParameter.swift in Sources */,
+				D9B637331F317864006F761D /* SettingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +328,7 @@
 				D9F7D16D1F315AA1001C0109 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
