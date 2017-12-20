@@ -4,10 +4,12 @@ class SettingViewController: UIViewController {
     let tableView = UITableView(frame: CGRect.zero, style: .grouped)
     let closeButton = UIButton()
     var overlayParameter = OverlayParameter()
-    var gridView: GridView?
 
     var fromViewController: UIViewController?
     var fromGridView: GridView?
+    
+    var currentField: UITextField?
+    var sizeField: UITextField?
 
     class func show(from fromGridView: GridView, parameter: OverlayParameter = OverlayParameter()) {
         let settingVC = SettingViewController()
@@ -17,9 +19,7 @@ class SettingViewController: UIViewController {
             settingVC.fromGridView = fromGridView
             settingVC.overlayParameter = parameter
 
-            UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromLeft, animations: {
-                window.rootViewController = navVC
-            }, completion: nil)
+            UIApplication.shared.topViewController()?.present(navVC, animated: true, completion: nil)
         }
     }
 
@@ -30,12 +30,15 @@ class SettingViewController: UIViewController {
         configureSubviews()
         configureLayout()
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if self.gridView != nil { return }
-        self.gridView = GridView.show(with: overlayParameter, isNeedSettingButton: false)
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fromGridView?.settingButton.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        fromGridView?.settingButton.isHidden = false
+        super.viewWillDisappear(animated)
     }
 
     func addSubviews() {
@@ -48,27 +51,47 @@ class SettingViewController: UIViewController {
         tableView.dataSource = self
         tableView.keyboardDismissMode = .onDrag
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+        tableView.allowsSelection = false
 
-        closeButton.setTitle("Close", for: .normal)
-        closeButton.setTitleColor(.blue, for: .normal)
+        closeButton.setTitle("閉じる", for: .normal)
+        closeButton.setTitleColor(.hex("#3498db"), for: .normal)
         closeButton.addTarget(self, action: #selector(closeButtonTouched), for: .touchUpInside)
         closeButton.backgroundColor = .white
+        
+        view.backgroundColor = .white
+        navigationController?.navigationBar.backgroundColor = .white
     }
 
     func configureLayout() {
-        tableView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height - 60)
-        closeButton.frame = CGRect(x: 0, y: tableView.frame.size.height, width: UIScreen.main.bounds.size.width, height: 60)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        if #available(iOS 11.0, *) {
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
+            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
+            
+            closeButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
+            closeButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
+            closeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        } else {
+            tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+            tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+            
+            closeButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+            closeButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+            closeButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        }
+        closeButton.topAnchor.constraint(equalTo: tableView.bottomAnchor).isActive = true
+        closeButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
 
     func closeButtonTouched() {
-        if let window = UIApplication.shared.keyWindow {
-            UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromLeft, animations: {
-                window.rootViewController = self.fromViewController
-
-                window.addSubview(self.fromGridView!)
-                self.fromGridView?.overlayParameter = self.overlayParameter
-                self.fromGridView?.refresh()
-            }, completion: nil)
+        dismiss(animated: true) { [weak self] _ in
+            if let weakSelf = self {
+                weakSelf.fromGridView?.overlayParameter = weakSelf.overlayParameter
+                weakSelf.fromGridView?.refresh()
+            }
         }
     }
 
@@ -97,16 +120,22 @@ extension SettingViewController: UITableViewDataSource {
             textField.tag = 1
             textField.keyboardType = .numberPad
             textField.returnKeyType = .done
+            textField.inputAccessoryView = createAccessoryView(with: .size)
+            
+            sizeField = textField
+            
             cell.textLabel?.text = "Size"
             cell.accessoryView = textField
             return cell
         } else if indexPath.row == 2 {
             let textField = MarginTextField()
-            textField.text = "#CCCCCC"
+            textField.text = "#3498db"
+            textField.placeholder = "#CCCCCC"
             textField.frame = CGRect(x: 0, y: 0, width: 100, height: 36)
             textField.tag = 2
             textField.delegate = self
             textField.returnKeyType = .done
+            textField.inputAccessoryView = createAccessoryView(with: .color)
             cell.textLabel?.text = "Color"
             cell.accessoryView = textField
             return cell
@@ -120,47 +149,99 @@ extension SettingViewController: UITableViewDataSource {
 
     func gridEnableSwitchChanged(_ sw: UISwitch) {
         overlayParameter.isGridEnable = sw.isOn
-        gridView?.refresh()
+        fromGridView?.refresh()
+    }
+    
+    enum AccessoryType {
+        case size
+        case color
+    }
+    private func createAccessoryView(with type: AccessoryType) -> UIView {
+        let view = UIView(
+            frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 36)
+        )
+        view.backgroundColor = .hex("#F6F6F6")
+        
+        let stackView = UIStackView()
+        stackView.distribution = .fillProportionally
+        stackView.alignment = .fill
+        stackView.spacing = 5
+        view.addSubview(stackView)
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 2).isActive = true
+        stackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5).isActive = true
+        stackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -2).isActive = true
+        
+        if type == .size {
+            for i in 1...3 {
+                let pixelSize: Int = i * 5
+                
+                let button = UIButton(type: .custom)
+                button.tag = pixelSize
+                button.setTitle("\(pixelSize)px", for: .normal)
+                button.addTarget(self, action: #selector(pixelButtonTouched(_:)), for: .touchUpInside)
+                button.backgroundColor = UIColor.hex("#3498db")
+                button.setTitleColor(UIColor.hex("#FFFFFF"), for: .normal)
+                button.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
+                button.layer.masksToBounds = true
+                button.layer.cornerRadius = 3.0
+                button.clipsToBounds = true
+                
+                stackView.addArrangedSubview(button)
+            }
+        }
+        
+        let button = UIButton(type: .custom)
+        button.setTitle("完了", for: .normal)
+        button.addTarget(self, action: #selector(doneButtonTouched), for: .touchUpInside)
+        button.backgroundColor = UIColor.hex("#FFFFFF")
+        button.setTitleColor(UIColor.hex("#333333"), for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 3.0
+        button.layer.borderWidth = 1.0
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.clipsToBounds = true
+        stackView.addArrangedSubview(button)
+        
+        return view
+    }
+    
+    func doneButtonTouched() {
+        currentField?.resignFirstResponder()
+    }
+    
+    func pixelButtonTouched(_ button: UIButton) {
+        sizeField?.text = "\(button.tag)"
+        overlayParameter.gridSize = button.tag
+        fromGridView?.refresh()
     }
 }
 
 extension SettingViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        currentField = textField
+    }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField.tag == 1 {
             if let text = textField.text,
                 let gridSize = Int(text) {
                 overlayParameter.gridSize = gridSize
-                gridView?.refresh()
+                fromGridView?.refresh()
             }
         } else if textField.tag == 2 {
             guard let text = textField.text else { return }
             overlayParameter.gridColor = UIColor.hex(text)
-            gridView?.refresh()
+            fromGridView?.refresh()
         }
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
-    }
-}
-
-extension SettingViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-        gridView?.isHidden = false
-    }
-
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-
-        let chosenImage = info[UIImagePickerControllerOriginalImage]
-        overlayParameter.designImage = chosenImage as? UIImage
-        gridView?.refresh()
-
-        picker.dismiss(animated: true, completion: { _ in })
-        gridView?.isHidden = false
-
-        tableView.reloadData()
     }
 }
 
@@ -175,32 +256,20 @@ class MarginTextField: UITextField {
         self.font = UIFont.systemFont(ofSize: 14.0)
         self.textColor = UIColor(red: 51/255.0, green: 51/255.0, blue: 51/255.0, alpha: 1.0)
         self.textAlignment = .center
-
-        self.inputAccessoryView = createAccessoryView()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
-    func createAccessoryView() -> UIView {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.size.width, height: 36))
-        let button = UIButton(type: .custom)
-        button.setTitle("完了", for: .normal)
-        button.addTarget(self, action: #selector(doneButtonTouched), for: .touchUpInside)
-        button.backgroundColor = UIColor.hex("0xEFEFEF")
-        button.setTitleColor(UIColor.hex("0x333333"), for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
-        button.layer.masksToBounds = true
-        button.layer.cornerRadius = 3.0
-        button.clipsToBounds = true
-        button.frame = CGRect(x: 0, y: 1, width: 60, height: 35)
-        view.addSubview(button)
-
-        return view
-    }
-
-    func doneButtonTouched() {
-        self.resignFirstResponder()
+extension UIApplication {
+    func topViewController() -> UIViewController? {
+        guard var topViewController = UIApplication.shared.keyWindow?.rootViewController else { return nil }
+        
+        while let presentedViewController = topViewController.presentedViewController {
+            topViewController = presentedViewController
+        }
+        return topViewController
     }
 }

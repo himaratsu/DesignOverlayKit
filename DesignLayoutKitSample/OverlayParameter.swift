@@ -2,20 +2,16 @@ import Foundation
 import UIKit
 
 class OverlayParameter {
-    var isDesignEnable = true
-    var designImage: UIImage? = #imageLiteral(resourceName: "tabletennis")
-    var designAlpha: CGFloat = 0.5
-
     var isGridEnable = true
     var gridSize: Int = 15
-    var gridColor = UIColor.lightGray
+    var gridColor = UIColor.hex("#3498db")
 }
 
 extension UIColor {
     class func hex (_ hexStr: String) -> UIColor {
         return UIColor.hex(hexStr, alpha:1.0)
     }
-
+    
     class func hex (_ hexStr: String, alpha: CGFloat) -> UIColor {
         let replacedHexStr = hexStr.replacingOccurrences(of: "#", with: "")
         let scanner = Scanner(string: replacedHexStr)
