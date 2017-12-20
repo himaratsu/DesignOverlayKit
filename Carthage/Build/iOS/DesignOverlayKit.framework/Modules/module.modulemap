@@ -1,0 +1,6 @@
+framework module DesignOverlayKit {
+  umbrella header "DesignOverlayKit.h"
+
+  export *
+  module * { export * }
+}
