@@ -25,6 +25,7 @@ class GridView: UIView {
         let gridView = GridView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
         gridView.overlayParameter = parameter
         gridView.settingButton.isHidden = !isNeedSettingButton
+        
         if let window = UIApplication.shared.keyWindow {
             window.addSubview(gridView)
         }
@@ -32,16 +33,23 @@ class GridView: UIView {
     }
 
     private func constructViews() {
-        settingButton.setTitle("Setting", for: .normal)
         settingButton.addTarget(self, action: #selector(showSetting), for: .touchUpInside)
-        settingButton.frame.origin = CGPoint(x: 10, y: 10)
+        
         addSubview(settingButton)
 
-        designImageView.frame = frame
-        designImageView.contentMode = .scaleAspectFill
-        addSubview(designImageView)
-
         refresh()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let posY: CGFloat
+        if #available(iOS 11.0, *) {
+            posY = 10 + safeAreaInsets.top
+        } else {
+            posY = 10
+        }
+        settingButton.frame.origin = CGPoint(x: 10, y: posY)
     }
 
     private func constructPathes() -> [[CGPoint]] {
@@ -76,9 +84,6 @@ class GridView: UIView {
     }
 
     func refresh() {
-        designImageView.isHidden = !overlayParameter.isDesignEnable
-        designImageView.image = overlayParameter.designImage
-        designImageView.alpha = overlayParameter.designAlpha
         setNeedsDisplay()
     }
 

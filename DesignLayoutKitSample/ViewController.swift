@@ -9,19 +9,25 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         view.addSubview(tableView)
+        title = "Design Overlay サンプルアプリ"
         tableView.frame = self.view.frame
         tableView.dataSource = self
         tableView.delegate = self
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "デバッグ",
+            style: .done,
+            target: self,
+            action: #selector(debugButtonTouched)
+        )
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        addGridView()
-    }
-
-    func addGridView() {
-        if self.gridView != nil { return }
+    
+    @objc func debugButtonTouched() {
+        if self.gridView != nil {
+            gridView?.removeFromSuperview()
+            self.gridView = nil
+            return
+        }
         self.gridView = GridView.show()
     }
 }
