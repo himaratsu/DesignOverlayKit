@@ -4,3 +4,8 @@ framework module DesignOverlayKit {
   export *
   module * { export * }
 }
+
+module DesignOverlayKit.Swift {
+    header "DesignOverlayKit-Swift.h"
+    requires objc
+}

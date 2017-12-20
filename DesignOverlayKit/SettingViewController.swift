@@ -86,8 +86,8 @@ class SettingViewController: UIViewController {
         closeButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
 
-    func closeButtonTouched() {
-        dismiss(animated: true) { [weak self] _ in
+    @objc func closeButtonTouched() {
+        dismiss(animated: true) { [weak self] in
             if let weakSelf = self {
                 weakSelf.fromGridView?.overlayParameter = weakSelf.overlayParameter
                 weakSelf.fromGridView?.refresh()
@@ -147,7 +147,7 @@ extension SettingViewController: UITableViewDataSource {
         return "Grid"
     }
 
-    func gridEnableSwitchChanged(_ sw: UISwitch) {
+    @objc func gridEnableSwitchChanged(_ sw: UISwitch) {
         overlayParameter.isGridEnable = sw.isOn
         fromGridView?.refresh()
     }
@@ -209,11 +209,11 @@ extension SettingViewController: UITableViewDataSource {
         return view
     }
     
-    func doneButtonTouched() {
+    @objc private func doneButtonTouched() {
         currentField?.resignFirstResponder()
     }
     
-    func pixelButtonTouched(_ button: UIButton) {
+    @objc private func pixelButtonTouched(_ button: UIButton) {
         sizeField?.text = "\(button.tag)"
         overlayParameter.gridSize = button.tag
         fromGridView?.refresh()

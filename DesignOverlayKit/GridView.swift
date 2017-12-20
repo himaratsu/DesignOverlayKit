@@ -1,6 +1,6 @@
 import UIKit
 
-class GridView: UIView {
+public class GridView: UIView {
 
     var overlayParameter = OverlayParameter() {
         didSet {
@@ -17,11 +17,11 @@ class GridView: UIView {
         constructViews()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    class func show(with parameter: OverlayParameter = OverlayParameter(), isNeedSettingButton: Bool = true) -> GridView {
+    class public func show(with parameter: OverlayParameter = OverlayParameter(), isNeedSettingButton: Bool = true) -> GridView {
         let gridView = GridView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
         gridView.overlayParameter = parameter
         gridView.settingButton.isHidden = !isNeedSettingButton
@@ -40,7 +40,7 @@ class GridView: UIView {
         refresh()
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         
         let posY: CGFloat
@@ -87,7 +87,7 @@ class GridView: UIView {
         setNeedsDisplay()
     }
 
-    override func draw(_ rect: CGRect) {
+    override public func draw(_ rect: CGRect) {
         let context = UIGraphicsGetCurrentContext()
         context?.clear(rect)
 
@@ -108,11 +108,11 @@ class GridView: UIView {
         }
     }
 
-    func showSetting() {
+    @objc private func showSetting() {
         SettingViewController.show(from: self, parameter: overlayParameter)
     }
 
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    override public func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let hitView = super.hitTest(point, with: event)
         if hitView == settingButton {
             return settingButton
