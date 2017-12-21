@@ -159,7 +159,6 @@
 				D92933291FEA6587002A2CC5 /* Frameworks */,
 				D929332A1FEA6587002A2CC5 /* Headers */,
 				D929332B1FEA6587002A2CC5 /* Resources */,
-				D92933411FEA66EF002A2CC5 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -178,6 +177,7 @@
 				D9F7D1561F315AA0001C0109 /* Frameworks */,
 				D9F7D1571F315AA0001C0109 /* Resources */,
 				D92933391FEA6587002A2CC5 /* Embed Frameworks */,
+				D9A36F171FEB52D600359518 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -251,7 +251,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		D92933411FEA66EF002A2CC5 /* ShellScript */ = {
+		D9A36F171FEB52D600359518 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -259,6 +259,7 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/DesignOverlayKit.framework",
 			);
+			name = Carthage;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -346,7 +347,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jp.co.yahoo.DesignOverlayKit;
+				PRODUCT_BUNDLE_IDENTIFIER = in.mashroom.DesignOverlayKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -384,7 +385,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jp.co.yahoo.DesignOverlayKit;
+				PRODUCT_BUNDLE_IDENTIFIER = in.mashroom.DesignOverlayKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
