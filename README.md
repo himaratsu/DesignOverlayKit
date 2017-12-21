@@ -31,7 +31,7 @@ CocoaPods is a centralised dependency manager.
 To integrate DesignOverlay into your Xcode project using CocoaPods, specify it in your Podfile and run `pod install`.
 
 ```
-platform :ios, '8.0'
+platform :ios, '9.0'
 use_frameworks!
 
 pod 'DesignOverlayKit'
