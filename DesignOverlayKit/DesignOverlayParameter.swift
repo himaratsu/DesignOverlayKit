@@ -1,14 +1,10 @@
 import Foundation
 import UIKit
 
-public class OverlayParameter {
-    var isGridEnable = true
-    var gridSize: Int = 15
-    var gridColor = UIColor.hex("#3498db")
-    
-    public init() {
-        // do nothing
-    }
+public struct DesignOverlayParameter {
+    public var isGridEnable = true
+    public var gridSize: Int = 15
+    public var gridColor = UIColor.hex("#3498db")
 }
 
 extension UIColor {

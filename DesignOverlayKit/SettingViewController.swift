@@ -3,20 +3,20 @@ import UIKit
 class SettingViewController: UIViewController {
     let tableView = UITableView(frame: CGRect.zero, style: .grouped)
     let closeButton = UIButton()
-    var overlayParameter = OverlayParameter()
+    var overlayParameter = DesignOverlayParameter()
 
     var fromViewController: UIViewController?
-    var fromGridView: GridView?
+    var overlay: DesignOverlay?
     
     var currentField: UITextField?
     var sizeField: UITextField?
 
-    class func show(from fromGridView: GridView, parameter: OverlayParameter = OverlayParameter()) {
+    class func show(from overlay: DesignOverlay, parameter: DesignOverlayParameter = DesignOverlayParameter()) {
         let settingVC = SettingViewController()
         let navVC = UINavigationController(rootViewController: settingVC)
         if let window = UIApplication.shared.keyWindow {
             settingVC.fromViewController = window.rootViewController
-            settingVC.fromGridView = fromGridView
+            settingVC.overlay = overlay
             settingVC.overlayParameter = parameter
 
             UIApplication.shared.topViewController()?.present(navVC, animated: true, completion: nil)
@@ -33,11 +33,11 @@ class SettingViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fromGridView?.settingButton.isHidden = true
+        overlay?.settingButton.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        fromGridView?.settingButton.isHidden = false
+        overlay?.settingButton.isHidden = false
         super.viewWillDisappear(animated)
     }
 
@@ -53,7 +53,7 @@ class SettingViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
         tableView.allowsSelection = false
 
-        closeButton.setTitle("閉じる", for: .normal)
+        closeButton.setTitle("Close", for: .normal)
         closeButton.setTitleColor(.hex("#3498db"), for: .normal)
         closeButton.addTarget(self, action: #selector(closeButtonTouched), for: .touchUpInside)
         closeButton.backgroundColor = .white
@@ -89,8 +89,8 @@ class SettingViewController: UIViewController {
     @objc func closeButtonTouched() {
         dismiss(animated: true) { [weak self] in
             if let weakSelf = self {
-                weakSelf.fromGridView?.overlayParameter = weakSelf.overlayParameter
-                weakSelf.fromGridView?.refresh()
+                weakSelf.overlay?.overlayParameter = weakSelf.overlayParameter
+                weakSelf.overlay?.refresh()
             }
         }
     }
@@ -149,7 +149,7 @@ extension SettingViewController: UITableViewDataSource {
 
     @objc func gridEnableSwitchChanged(_ sw: UISwitch) {
         overlayParameter.isGridEnable = sw.isOn
-        fromGridView?.refresh()
+        overlay?.refresh()
     }
     
     enum AccessoryType {
@@ -216,7 +216,7 @@ extension SettingViewController: UITableViewDataSource {
     @objc private func pixelButtonTouched(_ button: UIButton) {
         sizeField?.text = "\(button.tag)"
         overlayParameter.gridSize = button.tag
-        fromGridView?.refresh()
+        overlay?.refresh()
     }
 }
 
@@ -230,12 +230,12 @@ extension SettingViewController: UITextFieldDelegate {
             if let text = textField.text,
                 let gridSize = Int(text) {
                 overlayParameter.gridSize = gridSize
-                fromGridView?.refresh()
+                overlay?.refresh()
             }
         } else if textField.tag == 2 {
             guard let text = textField.text else { return }
             overlayParameter.gridColor = UIColor.hex(text)
-            fromGridView?.refresh()
+            overlay?.refresh()
         }
     }
 

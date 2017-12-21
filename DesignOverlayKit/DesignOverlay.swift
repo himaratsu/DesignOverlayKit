@@ -1,8 +1,8 @@
 import UIKit
 
-public class GridView: UIView {
+public class DesignOverlay: UIView {
 
-    var overlayParameter = OverlayParameter() {
+    var overlayParameter = DesignOverlayParameter() {
         didSet {
             setNeedsLayout()
         }
@@ -10,6 +10,8 @@ public class GridView: UIView {
     private let designImageView = UIImageView()
     let settingButton = UIButton(type: UIButtonType.infoDark)
     private let settingVC = SettingViewController()
+    
+    static var currentOverlay: DesignOverlay?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,18 +22,41 @@ public class GridView: UIView {
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    class public func show(with parameter: OverlayParameter = OverlayParameter(), isNeedSettingButton: Bool = true) -> GridView {
-        let gridView = GridView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
-        gridView.overlayParameter = parameter
-        gridView.settingButton.isHidden = !isNeedSettingButton
+    
+    class public func show() {
+        let defaultParameter = DesignOverlayParameter()
+        show(with: defaultParameter)
+    }
+    
+    class public func show(with parameter: DesignOverlayParameter) {
+        show(with: parameter, isNeedSettingButton: true)
+    }
+    
+    class func show(
+        with parameter: DesignOverlayParameter = DesignOverlayParameter(),
+        isNeedSettingButton: Bool = true
+        ) {
+        
+        if currentOverlay != nil {
+            hide()
+        }
+        
+        let overlay = DesignOverlay(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+        overlay.overlayParameter = parameter
+        overlay.settingButton.isHidden = !isNeedSettingButton
         
         if let window = UIApplication.shared.keyWindow {
-            window.addSubview(gridView)
+            window.addSubview(overlay)
         }
-        return gridView
+        
+        currentOverlay = overlay
     }
-
+    
+    class public func hide() {
+        currentOverlay?.removeFromSuperview()
+        currentOverlay = nil
+    }
+    
     private func constructViews() {
         settingButton.addTarget(self, action: #selector(showSetting), for: .touchUpInside)
         

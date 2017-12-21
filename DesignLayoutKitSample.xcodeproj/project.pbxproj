@@ -8,19 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		D92933311FEA6587002A2CC5 /* DesignOverlayKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D929332F1FEA6587002A2CC5 /* DesignOverlayKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D929333A1FEA662C002A2CC5 /* OverlayParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D7D121F331AE300C4253B /* OverlayParameter.swift */; };
+		D929333A1FEA662C002A2CC5 /* DesignOverlayParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D7D121F331AE300C4253B /* DesignOverlayParameter.swift */; };
 		D929333B1FEA662C002A2CC5 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B637321F317864006F761D /* SettingViewController.swift */; };
-		D929333C1FEA662C002A2CC5 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F7D16F1F315ACC001C0109 /* GridView.swift */; };
+		D929333C1FEA662C002A2CC5 /* DesignOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F7D16F1F315ACC001C0109 /* DesignOverlay.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D90D7D121F331AE300C4253B /* OverlayParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayParameter.swift; sourceTree = "<group>"; };
+		D90D7D121F331AE300C4253B /* DesignOverlayParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignOverlayParameter.swift; sourceTree = "<group>"; };
 		D929332D1FEA6587002A2CC5 /* DesignOverlayKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DesignOverlayKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D929332F1FEA6587002A2CC5 /* DesignOverlayKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DesignOverlayKit.h; sourceTree = "<group>"; };
 		D92933301FEA6587002A2CC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D929333E1FEA66E6002A2CC5 /* DesignOverlayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DesignOverlayKit.framework; path = Carthage/Build/iOS/DesignOverlayKit.framework; sourceTree = "<group>"; };
 		D9B637321F317864006F761D /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		D9F7D16F1F315ACC001C0109 /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		D9F7D16F1F315ACC001C0109 /* DesignOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignOverlay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,9 +38,9 @@
 			isa = PBXGroup;
 			children = (
 				D929332F1FEA6587002A2CC5 /* DesignOverlayKit.h */,
-				D9F7D16F1F315ACC001C0109 /* GridView.swift */,
+				D9F7D16F1F315ACC001C0109 /* DesignOverlay.swift */,
 				D9B637321F317864006F761D /* SettingViewController.swift */,
-				D90D7D121F331AE300C4253B /* OverlayParameter.swift */,
+				D90D7D121F331AE300C4253B /* DesignOverlayParameter.swift */,
 				D92933301FEA6587002A2CC5 /* Info.plist */,
 			);
 			path = DesignOverlayKit;
@@ -153,8 +153,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D929333A1FEA662C002A2CC5 /* OverlayParameter.swift in Sources */,
-				D929333C1FEA662C002A2CC5 /* GridView.swift in Sources */,
+				D929333A1FEA662C002A2CC5 /* DesignOverlayParameter.swift in Sources */,
+				D929333C1FEA662C002A2CC5 /* DesignOverlay.swift in Sources */,
 				D929333B1FEA662C002A2CC5 /* SettingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
