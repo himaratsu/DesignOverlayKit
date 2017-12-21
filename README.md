@@ -1,6 +1,7 @@
 # DesignOverlay
 
-DesignOverlay is a debug tool to check design.
+iOS library which displays grid lines on App Screen to facilitate the design implementation process.
+Inspired by [Manabu-GT/DesignOverlay-Android](https://github.com/Manabu-GT/DesignOverlay-Android).
 
 
 ## Features
