@@ -16,7 +16,7 @@ public class DesignOverlay: UIView {
         }
     }
     private let designImageView = UIImageView()
-    let settingButton = UIButton(type: UIButtonType.infoDark)
+    let settingButton = UIButton(type: UIButton.ButtonType.infoDark)
     private let settingVC = SettingViewController()
     
     static var currentOverlay: DesignOverlay?
